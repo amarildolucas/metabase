@@ -20,12 +20,17 @@ const propTypes = {
 
 type Props = { dimension: Dimension } & Pick<
   ITippyPopoverProps,
-  "children" | "placement"
+  "children" | "placement" | "delay"
 >;
 
 const className = "dimension-info-popover";
 
-function DimensionInfoPopover({ dimension, children, placement }: Props) {
+function DimensionInfoPopover({
+  dimension,
+  children,
+  placement,
+  delay = POPOVER_DELAY,
+}: Props) {
   // avoid a scenario where we may have a Dimension instance but not enough metadata
   // to even show a display name (probably indicative of a bug)
   const hasMetadata = !!(dimension && dimension.displayName());
@@ -33,7 +38,7 @@ function DimensionInfoPopover({ dimension, children, placement }: Props) {
   return hasMetadata ? (
     <TippyPopover
       className={className}
-      delay={isCypressActive ? 0 : POPOVER_DELAY}
+      delay={isCypressActive ? 0 : delay}
       interactive
       placement={placement || "left-start"}
       content={<WidthBoundDimensionInfo dimension={dimension} />}
