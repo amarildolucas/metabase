@@ -17,7 +17,8 @@ describe("static visualizations", () => {
 
   visualizationTypes.map(type => {
     it(`${type} chart`, () => {
-      cy.createDashboard()
+      const dashboardName = `${type} charts dashboard`;
+      cy.createDashboard({ name: dashboardName })
         .then(({ body: { id: dashboardId } }) => {
           return cypressWaitAll([
             createOneMetricTwoDimensionsQuestion(type, dashboardId),
@@ -39,7 +40,7 @@ describe("static visualizations", () => {
           cy.button("Send email now").click();
           cy.button("Email sent");
 
-          openEmailPage("Test Dashboard").then(() => {
+          openEmailPage(dashboardName).then(() => {
             cy.percySnapshot();
           });
         });
