@@ -8,6 +8,8 @@ const { admin } = USERS;
 
 const visualizationTypes = ["line", "area", "bar", "combo"];
 
+const SENDING_EMAIL_TIMEOUT = 30000;
+
 describe("static visualizations", () => {
   beforeEach(() => {
     restore();
@@ -38,7 +40,7 @@ describe("static visualizations", () => {
             .blur();
 
           cy.button("Send email now").click();
-          cy.button("Email sent");
+          cy.button("Email sent", SENDING_EMAIL_TIMEOUT);
 
           openEmailPage(dashboardName).then(() => {
             cy.percySnapshot();
